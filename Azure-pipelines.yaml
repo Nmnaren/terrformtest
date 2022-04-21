@@ -73,3 +73,22 @@ stages:
           appType: 'WebApp'
           WebAppName: 'QA-app-demo'
           packageForLinux: '$(pipeline.Workspace)/**/*.zip'
+
+- stage: "ProdDeploy"
+  dependsOn: "QADeploy"
+  condition: succeeded()
+  jobs:
+  - deployment:
+    pool: 
+      vmImage: 'windows-latest'
+      environment: Prod
+      strategy:
+      runOnce:
+      deploy:
+        steps:
+        - task: AzureRMWebdeployment@4
+          inputs:
+          connectionType: 'AzureRM'
+          appType: 'WebApp'
+          WebAppName: 'Prod-app-demo'
+          packageForLinux: '$(pipeline.Workspace)/**/*.zip'
