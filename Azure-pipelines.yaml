@@ -9,7 +9,7 @@ trigger:
 stages:
 - stage: "buildsatge"
   jobs:
-  - job: "buildjob" 
+  - job: "dev" 
     pool:
       vmImage: 'windows-latest'
 
